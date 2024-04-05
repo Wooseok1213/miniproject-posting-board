@@ -5,8 +5,7 @@ $(document).ready(function () {
 
         window.location.href = "./dashboard.html";
     })
-    $("#button").click(async function () {
-    
-        window.location.href = "./singUp_1-1.html";
+    $("#signUpBtn").click(async function () {
+    window.location.href = "./singUp.html";
 })
 });
