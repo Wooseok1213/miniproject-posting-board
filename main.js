@@ -6,6 +6,6 @@ $(document).ready(function () {
         window.location.href = "./dashboard.html";
     })
     $("#signUpBtn").click(async function () {
-    window.location.href = "./singUp.html";
+        window.location.href = "./signUp02.html";
 })
 });

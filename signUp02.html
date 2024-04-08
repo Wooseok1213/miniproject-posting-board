@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>signUpPage</title>
+</head>
+<style>
+    .pageTitle {
+        width: 1600px;
+        font-size: 60px;
+        text-align: center;
+    }
+
+    .informationBox {
+        width: 600px;
+        height: 500px;
+        font-size: 24px;
+        padding-top: 40px;
+        padding-left: 30px;
+        margin-left: auto;
+        margin-right: auto;
+        border: 1px solid #00f;
+    }
+
+    .signUpInformation {}
+
+    .signUpAnswer {
+        font-size: 16px;
+        width: 500px;
+        height: 25px;
+    }
+
+    .checkBtn {
+        color: white;
+        background-color: blue;
+        border-radius: 10px;
+
+    }
+
+    .hintBox {
+        font-size: 25px;
+        width: 450px;
+    }
+
+    .checkBox {
+        font-size: 15px;
+        color: red;
+    }
+
+    .exitBtn {
+        margin-top: 100px;
+        margin-left: 50px;
+        text-align: center;
+        padding: 10px 50px;
+        border-radius: 10px;
+    }
+
+    .signUpBtn {
+        padding: 10px 50px;
+        margin-left: 80px;
+        background-color: skyblue;
+        border-radius: 10px;
+    }
+</style>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+    import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+    import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBhq2OtY5clSvopV9tsPz0lW0wZy4RdOwQ",
+        authDomain: "sparta-1fa90.firebaseapp.com",
+        projectId: "sparta-1fa90",
+        storageBucket: "sparta-1fa90.appspot.com",
+        messagingSenderId: "784632833951",
+        appId: "1:784632833951:web:a943cecea8bf5a54ee7faa",
+        measurementId: "G-PFF1YPXS70"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    $(signUpPage).ready(function () {
+        $("#idCheck").click(async function () {
+            alert("사용가능한 아이디입니다.");
+        })
+
+        $("#signBtn").click(async function () {
+            let userId = $('#userId').val();
+            let passWd = $('#passWd').val();
+            let checkPw = $('#checkPw').val();
+            let name = $('#name').val();
+            let hintchoice = $('#hintchoice').val();
+            let hintanw = $('#hintanw').val();
+            let check = $('#check').val();
+
+            let doc = {
+                'userId': userId,
+                'passWd': passWd,
+                'checkPw': checkPw,
+                'name': name,
+                'hintchoice': hintchoice,
+                'hintanw': hintanw,
+                'check': check
+            };
+
+            await addDoc(collection(db, "Users"), doc);
+            alert("회원가입을 축하드립니다.");
+            window.location.href = "./index.html";
+        })
+
+        $("#exit").click(async function () {
+            window.location.href = "./index.html";
+        })
+    })
+</script>
+
+<body>
+    <h1 class="pageTitle"> 회원 가입 </h1>
+    <div class="informationBox">
+        <div class="signUpbox">
+            <label for="formGroupExampleInput" class="signUpInformation">아이디<br></label>
+            <input type="text" class="signUpAnswer" id="userId" placeholder="4~12글자, 영어나 숫자만 입력해주세요">
+            <button id="idCheck" class="checkBtn" type="submit">중복확인</button>
+        </div>
+        <div class="signUpbox">
+            <label for="formGroupExampleInput2" class="signUpInformation">비밀번호<br></label>
+            <input type="text" class="signUpAnswer" id="passWd" placeholder="영어 대/소문자, 숫자, 특수문자를 혼합하여 8자리 이상 입력해주세요">
+        </div>
+        <div class="signUpbox">
+            <label for="formGroupExampleInput" class="signUpInformation">비밀번호 확인<br></label>
+            <input type="text" class="signUpAnswer" id="checkPw" placeholder="입력한 비밀번호를 똑같이 입력해주세요">
+        </div>
+        <div class="signUpbox">
+            <label for="formGroupExampleInput2" class="signUpInformation">이름<br></label>
+            <input type="text" class="signUpAnswer" id="name" placeholder="실명을 입력해주세요">
+        </div>
+        <div class="signUpbox">
+            <label for="formGroupExampleInput2" class="signUpInformation"><br>비밀번호 힌트<br></label>
+            <div class="form-floating">
+                <select class="hintBox" id="hintchoice" aria-label="Floating label select example">
+                    <option selected>힌트를 선택해주세요</option>
+                    <option value="1">나에게 가장 소중한 물건은?</option>
+                    <option value="2">내 기억에서 가장 좋은 추억은?</option>
+                    <option value="3">내 가치관은?</option>
+                    <option value="4">가장 감명깊게 본 책은?</option>
+                    <option value="5">가장 기억에 남는 선생님은?</option>
+                </select>
+                <label for="floatingSelect"></label>
+            </div>
+            <div class="signUpbox">
+                <label for="signUpInformation" class="hintAnswer">비밀번호 힌트입력<br></label>
+                <input type="text" class="signUpAnswer" id="hintanw" placeholder="지정할 답변을 입력해주세요">
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="check">
+                <label class="checkBox" for="flexCheckDefault">
+                    회원가입에 동의하십니까
+                </label>
+            </div>
+            <button id="signBtn" type="button" class="signUpBtn">회원가입</button>
+            <button id="exit" type="button" class="exitBtn">돌아가기</button>
+</body>
+
+</html>
