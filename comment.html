@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>댓글</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBhq2OtY5clSvopV9tsPz0lW0wZy4RdOwQ",
+            authDomain: "sparta-1fa90.firebaseapp.com",
+            projectId: "sparta-1fa90",
+            storageBucket: "sparta-1fa90.appspot.com",
+            messagingSenderId: "784632833951",
+            appId: "1:784632833951:web:a943cecea8bf5a54ee7faa",
+            measurementId: "G-PFF1YPXS70"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+
+        // 등록 버튼 클릭 시 이벤트(일단은 댓글 내용과 등록 시간만 뜨도록 함.)
+        $("#cbtn").click(async function () {
+            let input = $('#cinput').val();
+            let date = new Date().toLocaleString();
+
+            let doc = {
+                'input': input,
+                'date': date
+            };
+            await addDoc(collection(db, "comments"), doc);
+            window.location.reload();
+        })
+
+        let count = document.querySelector('.count');
+
+        let docs = await getDocs(collection(db, "comments"));
+        docs.forEach((doc) => {
+            let row = doc.data();
+
+            let input = row['input'];
+            let date = row['date'];
+
+            let temp_html = `
+            <div class="col m-2" >
+                <div class="card h-100" style="padding-left: 15px; padding-top: 10px">
+                    <p>${input}</p>
+                    <p><small>${date}</small></p>
+                </div>
+            </div>`;
+
+            $('#commentlist').append(temp_html);
+
+            // 댓글 수가 +1 됨
+            count.innerHTML++;
+        })
+    </script>
+
+    <style>
+        .commentinput {
+            margin-top: 2%;
+            margin-left: 5%;
+            margin-right: 5%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="commentinput">
+        <h3 style="text-align: left;">댓글 <span class="count">0</span></h3>
+        <input type="text" id="cinput" placeholder="댓글을 입력해주세요." style="width: 100%; height: 60px;">
+        <div style="margin-top: 5px; text-align: right;"><button id="cbtn" type="button" class="btn btn-primary" onclick="countup()">등록</button></div>
+    </div>
+
+    <div id="commentlist" class="mx-5">
+
+    </div>
+</body>
+
+</html>

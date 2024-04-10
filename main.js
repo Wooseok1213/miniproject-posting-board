@@ -3,7 +3,7 @@ $(document).ready(function () {
         let userID = $("userID").val();
         let password = $("userPassword").val();
 
-        window.location.href = "./dashboard.html";
+        window.location.href = "./mainLogIn.html";
     })
     $("#signUpBtn").click(async function () {
         window.location.href = "./signUp02.html";
